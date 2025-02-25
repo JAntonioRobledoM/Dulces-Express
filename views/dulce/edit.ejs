@@ -1,0 +1,23 @@
+<%- include('../templates/header', { titulo: 'Editar Dulce' }) %>
+
+<div class="container mt-5">
+    <h2 class="text-center">Editar Dulce</h2>
+    <form action="/dulce/<%= dulce._id %>?_method=PUT" method="POST" class="mt-3">
+        <div class="mb-3">
+            <label class="form-label">Nombre</label>
+            <input type="text" name="nombre" class="form-control" value="<%= dulce.nombre %>" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Tipo</label>
+            <input type="text" name="tipo" class="form-control" value="<%= dulce.tipo %>" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Descripción</label>
+            <textarea name="descripcion" class="form-control" required><%= dulce.descripcion %></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Actualizar</button>
+    </form>
+    <a href="/dulce" class="btn btn-secondary mt-3">Volver</a>
+</div>
+
+<%- include('../templates/footer') %>

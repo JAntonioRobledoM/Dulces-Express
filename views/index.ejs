@@ -1,0 +1,55 @@
+<%- include('templates/header', { titulo: 'Inicio' }) %>
+    <header class="text-center py-5 bg-header text-black">
+        <h1 class="fw-bold">¡Bienvenidos a mi Tienda de Dulces! 🍩🎂</h1>
+        <p>El mejor lugar para encontrar los dulces más sabrosos y coloridos.</p>
+    </header>
+
+    <div class="container mb-5">
+        <!-- Cards con categorías destacadas -->
+        <div class="row mb-4">
+            <div class="col-12 text-center mb-4 mt-3">
+                <h2 class="text-purple">Nuestras Especialidades</h2>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center" style="background-color: #fff0f5;">
+                        <i class="fas fa-birthday-cake fa-3x text-purple mb-3"></i>
+                        <h3 class="card-title">Pasteles</h3>
+                        <p class="card-text">Deliciosos pasteles para cualquier ocasión especial.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center" style="background-color: #f5f0ff;">
+                        <i class="fas fa-cookie fa-3x text-purple mb-3"></i>
+                        <h3 class="card-title">Galletas</h3>
+                        <p class="card-text">Crujientes y sabrosas galletas caseras.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center" style="background-color: #fff5f0;">
+                        <i class="fas fa-candy-cane fa-3x text-purple mb-3"></i>
+                        <h3 class="card-title">Caramelos</h3>
+                        <p class="card-text">Dulces tradicionales elaborados con amor.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 text-center">
+                <div class="p-4 rounded" style="background-color: #ffccdd;">
+                    <h2 class="text-purple mb-3">¿Listo para endulzar tu día?</h2>
+                    <p class="mb-4">Explora nuestra colección de dulces artesanales y encuentra tu favorito.</p>
+                    <a href="/dulce" class="btn btn-lg px-4" style="background-color: #ff69b4; color: white;">Ver Todos
+                        los Dulces</a>
+                </div>
+            </div>
+        </div>
+
+        <%- include('templates/footer') %>

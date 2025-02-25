@@ -1,0 +1,23 @@
+<%- include('../templates/header', { titulo: 'Lista de Dulces' }) %>
+<div class="container">
+    <h2 class="my-4">Lista de Dulces</h2>
+    <table class="table mt-3">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Tipo</th>
+                <th>Descripción</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% dulces.forEach(dulce => { %>
+                <tr>
+                    <td><%= dulce.nombre %></td>
+                    <td><%= dulce.tipo %></td>
+                    <td><%= dulce.descripcion %></td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</div>
+<%- include('../templates/footer') %>
