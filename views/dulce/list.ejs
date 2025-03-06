@@ -14,8 +14,8 @@
             <% dulces.forEach(dulce => { %>
                 <tr>
                     <td>
-                        <% if (dulce.imagenes && dulce.imagenes.length > 0) { %>
-                            <img src="<%= dulce.imagenes[0] %>" alt="Imagen de <%= dulce.nombre %>" width="100">
+                        <% if (dulce.imagen) { %>
+                            <img src="/uploads/<%= dulce.imagen %>" alt="Imagen de <%= dulce.nombre %>" width="100">
                         <% } else { %>
                             <span>Sin imagen</span>
                         <% } %>

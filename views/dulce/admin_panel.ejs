@@ -1,7 +1,10 @@
-<%- include('../templates/header', { titulo: 'Inicio' }) %>
+<%- include('../templates/header', { titulo: 'Lista de Dulces' }) %>
 <div class="container">
     <h2 class="my-4">Lista de Dulces</h2>
-    <a href="/dulce/new" class="btn btn-success">Agregar Dulce</a>
+    
+    <!-- Botón para abrir el modal de Nuevo Dulce -->
+    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalNuevoDulce">Agregar Dulce</button>
+
     <table class="table mt-3">
         <thead>
             <tr>
@@ -16,8 +19,8 @@
             <% dulces.forEach(dulce => { %>
                 <tr>
                     <td>
-                        <% if (dulce.imagenes && dulce.imagenes.length > 0) { %>
-                            <img src="<%= dulce.imagenes[0] %>" alt="Imagen de <%= dulce.nombre %>" width="100">
+                        <% if (dulce.imagen) { %>
+                            <img src="/uploads/<%= dulce.imagen %>" alt="Imagen de <%= dulce.nombre %>" width="100">
                         <% } else { %>
                             <span>Sin imagen</span>
                         <% } %>
@@ -26,7 +29,17 @@
                     <td><%= dulce.tipo %></td>
                     <td><%= dulce.descripcion %></td>
                     <td>
-                        <a href="/dulce/<%= dulce._id %>/edit" class="btn btn-warning">Editar</a>
+                        <!-- Botón para abrir el modal de edición -->
+                        <button class="btn btn-warning btnEditar" 
+                            data-bs-toggle="modal" 
+                            data-bs-target="#modalEditarDulce"
+                            data-id="<%= dulce._id %>"
+                            data-nombre="<%= dulce.nombre %>"
+                            data-tipo="<%= dulce.tipo %>"
+                            data-descripcion="<%= dulce.descripcion %>"
+                            data-imagen="<%= dulce.imagen %>">
+                            Editar
+                        </button>
                         <form action="/dulce/<%= dulce._id %>?_method=DELETE" method="POST" style="display:inline;">
                             <button type="submit" class="btn btn-danger">Eliminar</button>
                         </form>
@@ -44,13 +57,11 @@
                     <a class="page-link" href="/dulce?page=<%= currentPage - 1 %>">Anterior</a>
                 </li>
             <% } %>
-
             <% for (let i = 1; i <= totalPages; i++) { %>
                 <li class="page-item <%= currentPage === i ? 'active' : '' %>">
                     <a class="page-link" href="/dulce?page=<%= i %>"><%= i %></a>
                 </li>
             <% } %>
-
             <% if (currentPage < totalPages) { %>
                 <li class="page-item">
                     <a class="page-link" href="/dulce?page=<%= currentPage + 1 %>">Siguiente</a>
@@ -59,5 +70,97 @@
         </ul>
     </nav>
 </div>
+
+<!-- MODAL NUEVO DULCE -->
+<div class="modal fade" id="modalNuevoDulce" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Agregar Nuevo Dulce</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/dulce" method="POST" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label class="form-label">Nombre</label>
+                        <input type="text" name="nombre" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Tipo</label>
+                        <input type="text" name="tipo" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Descripción</label>
+                        <textarea name="descripcion" class="form-control" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Subir Imagen</label>
+                        <input type="file" name="imagen" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-success w-100">Agregar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL EDITAR DULCE -->
+<div class="modal fade" id="modalEditarDulce" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Editar Dulce</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formEditar" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="_method" value="PUT">
+                    <div class="mb-3">
+                        <label class="form-label">Nombre</label>
+                        <input type="text" name="nombre" id="editNombre" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Tipo</label>
+                        <input type="text" name="tipo" id="editTipo" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Descripción</label>
+                        <textarea name="descripcion" id="editDescripcion" class="form-control" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Imagen actual</label>
+                        <img id="editImagenPreview" src="" width="100">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Subir Nueva Imagen</label>
+                        <input type="file" name="imagen" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Actualizar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const modalEditar = document.getElementById("modalEditarDulce");
+        modalEditar.addEventListener("show.bs.modal", function (event) {
+            const button = event.relatedTarget;
+            const id = button.getAttribute("data-id");
+            const nombre = button.getAttribute("data-nombre");
+            const tipo = button.getAttribute("data-tipo");
+            const descripcion = button.getAttribute("data-descripcion");
+            const imagen = button.getAttribute("data-imagen");
+
+            document.getElementById("editNombre").value = nombre;
+            document.getElementById("editTipo").value = tipo;
+            document.getElementById("editDescripcion").value = descripcion;
+            document.getElementById("editImagenPreview").src = imagen ? "/uploads/" + imagen : "";
+
+            document.getElementById("formEditar").setAttribute("action", `/dulce/${id}?_method=PUT`);
+        });
+    });
+</script>
 
 <%- include('../templates/footer') %>
