@@ -4,6 +4,7 @@
     <table class="table mt-3">
         <thead>
             <tr>
+                <th>Imagen</th>
                 <th>Nombre</th>
                 <th>Tipo</th>
                 <th>Descripción</th>
@@ -12,6 +13,13 @@
         <tbody>
             <% dulces.forEach(dulce => { %>
                 <tr>
+                    <td>
+                        <% if (dulce.imagenes && dulce.imagenes.length > 0) { %>
+                            <img src="<%= dulce.imagenes[0] %>" alt="Imagen de <%= dulce.nombre %>" width="100">
+                        <% } else { %>
+                            <span>Sin imagen</span>
+                        <% } %>
+                    </td>
                     <td><%= dulce.nombre %></td>
                     <td><%= dulce.tipo %></td>
                     <td><%= dulce.descripcion %></td>
@@ -19,5 +27,28 @@
             <% }) %>
         </tbody>
     </table>
+
+    <!-- Paginación -->
+    <nav>
+        <ul class="pagination justify-content-center">
+            <% if (currentPage > 1) { %>
+                <li class="page-item">
+                    <a class="page-link" href="/dulce?page=<%= currentPage - 1 %>">Anterior</a>
+                </li>
+            <% } %>
+
+            <% for (let i = 1; i <= totalPages; i++) { %>
+                <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                    <a class="page-link" href="/dulce?page=<%= i %>"><%= i %></a>
+                </li>
+            <% } %>
+
+            <% if (currentPage < totalPages) { %>
+                <li class="page-item">
+                    <a class="page-link" href="/dulce?page=<%= currentPage + 1 %>">Siguiente</a>
+                </li>
+            <% } %>
+        </ul>
+    </nav>
 </div>
 <%- include('../templates/footer') %>

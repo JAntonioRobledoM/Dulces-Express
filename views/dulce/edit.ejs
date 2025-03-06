@@ -15,6 +15,10 @@
             <label class="form-label">Descripción</label>
             <textarea name="descripcion" class="form-control" required><%= dulce.descripcion %></textarea>
         </div>
+        <div class="mb-3">
+            <label class="form-label">Imágenes (URLs separadas por comas)</label>
+            <textarea name="imagenes" class="form-control" placeholder="Ejemplo: https://imagen1.com, https://imagen2.com"><%= dulce.imagenes ? dulce.imagenes.join(', ') : '' %></textarea>
+        </div>
         <button type="submit" class="btn btn-primary w-100">Actualizar</button>
     </form>
     <a href="/dulce" class="btn btn-secondary mt-3">Volver</a>
